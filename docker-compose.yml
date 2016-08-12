@@ -1,0 +1,22 @@
+version: "2"
+services:
+  httpd:
+    build: .
+    labels:
+      - convox.router.path=/test,/test/*
+    ports:
+      - 80:80
+  wordpress:
+    image: wordpress:4.5.3-apache
+    labels:
+      - convox.router.path=/*
+    links:
+      - wordpress-db
+    ports:
+      - 80:80
+    volumes:
+      - /var/www/html
+  wordpress-db:
+    image: convox/mysql
+    ports:
+      - 3306
